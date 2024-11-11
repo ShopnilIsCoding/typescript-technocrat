@@ -71,3 +71,107 @@ const addCourseToStudent=<T extends {id:number,name:string,email:string}>(studen
 const res4=addCourseToStudent({id:1,name:'John Doe',email:'johndoe@gmail.com'});
 
 console.log(res4);
+
+//keyof operator
+
+type vehicle=
+{
+    bike:string,
+    car:string,
+    ship:string
+}
+
+type Owner='bike'|'car'|'ship';//same
+type Owner2= keyof vehicle;//same
+
+const user=
+{
+    name:"BuLu",
+    age:40,
+    address: 'DHK'
+}
+
+const getPropertyValue=<X,Y extends keyof X>(obj:X,key:Y)=>
+{
+    return obj[key];
+}
+
+const res5=getPropertyValue(user,'name')
+console.log(res5);
+
+//asynchronous ts
+
+type Api={
+    userId:number,
+    id:number,
+    title:string,
+    completed:boolean
+}
+
+ const getTodo = async ():Promise<Api> =>
+ {
+   const res=await fetch('https://jsonplaceholder.typicode.com/todos/1');
+   const data = await res.json();
+   return data ;
+   //console.log(data); 
+ };
+ console.log(getTodo()); 
+
+ //conditional type
+ 
+ type a1=number;
+ type b1=undefined;
+
+ type x= a1 extends null ? true: b1 extends undefined ? undefined  : any;
+
+type Sheikh={
+    bike:string;
+    car:string;
+    ship:string
+}
+
+type CheckVehicle<T>= T extends keyof Sheikh? true:false;
+
+type Hasplane=CheckVehicle<"Plane">;
+
+type areaNumber=
+{
+    height:number;
+    width:number;
+}
+
+// type AreaString=
+// {
+//     [key in keyof areaNumber]:string;
+// }
+type AreaString<T>=
+{
+    [key in keyof T]:T[key];//lookup map type
+}
+
+const area1:AreaString<{height:string,width:number}>=
+{
+    height:"500",
+    width:10
+}
+
+type pick=Pick<Sheikh,'car'|'bike'>//pick-same
+
+type omit=Omit<Sheikh,'ship'>//omit-same
+
+type SheikhRequired=Required<Sheikh>//required
+type partial = Partial<Sheikh>//partial
+
+type readOnly=Readonly<Sheikh>//readOnly
+
+//Record
+
+type myOBJ= Record<string,string>
+
+const EmptyOBJ:Record<string,unknown>={};
+const obj:myOBJ={
+    name:"BuLu",
+    age:"40"
+}
+
+ 
